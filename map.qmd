@@ -1,0 +1,25 @@
+---
+title: "Greater Allen's Cove-Eastern Ninigret Pilot Watershed"
+format: 
+  html:
+      margin-bottom: "0.1"
+      margin-top: "0.1"
+      margin-left: "0.1"
+      margin-right: "0.1"
+      embed-resources: true
+---
+```{r, echo=FALSE, message=FALSE, warning=FALSE,fig.height=40,fig.width=40}
+invisible({library(sf)
+library(raster)
+library(terra)
+library(mapview)
+nsink <- rast("ninigret_outputs/transport_idx.tif")
+watershed_boundary <- st_read("Pilot Watershed Boundary/PilotWatershedBoundary.shp", quiet=TRUE)
+nsink <- terra::project(nsink, st_crs(watershed_boundary)$wkt)
+nsink_crop <- terra::crop(terra::mask(nsink, watershed_boundary), watershed_boundary)
+nsink_crop <- as(nsink_crop, "Raster")})
+#mapview(nsink_crop, map.types = c("OpenStreetMap.Mapnik", "Esri.WorldImagery")) + 
+#  mapview(wshd, col.regions = "white", alpha.regions = 0.3)
+#mapview(nsink_crop, map.types = c("OpenStreetMap.Mapnik", "Esri.WorldImagery")) + 
+  mapview(watershed_boundary, col.regions = "white", alpha.regions = 0.2,map.types = c("OpenStreetMap.Mapnik", "Esri.WorldImagery"), lwd = 2)
+```
