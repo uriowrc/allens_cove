@@ -2,24 +2,25 @@
 title: "Greater Allen's Cove-Eastern Ninigret Pilot Watershed"
 format: 
   html:
-      margin-bottom: "0.1"
-      margin-top: "0.1"
-      margin-left: "0.1"
-      margin-right: "0.1"
+      page-layout: full
       embed-resources: true
 editor_options: 
   chunk_output_type: console
 ---
-```{r, echo=FALSE, message=FALSE, warning=FALSE,fig.height=40,fig.width=40}
-invisible({library(sf)
+<div class="page-layout-custom">
+  
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+invisible({
+  library(sf)
 library(raster)
 library(terra)
 library(mapview)
 library(dplyr)
+mapviewOptions(fgb = FALSE)
 nsink <- rast("ninigret_outputs/transport_idx.tif")
 watershed_boundary <- st_read("Pilot Watershed Boundary/PilotWatershedBoundary.shp", quiet=TRUE)
 watershed_boundary_ln <- sf::st_cast(watershed_boundary, "MULTILINESTRING")
-e911 <- st_read("e911.shp")
+e911 <- st_read("e911.shp", quiet=TRUE)
 nsink <- terra::project(nsink, st_crs(watershed_boundary)$wkt)
 nsink_crop <- terra::crop(terra::mask(nsink, watershed_boundary), watershed_boundary)
 nsink_crop <- as(nsink_crop, "Raster")
@@ -29,3 +30,5 @@ nsink_crop <- as(nsink_crop, "Raster")
 #mapview(nsink_crop, map.types = c("OpenStreetMap.Mapnik", "Esri.WorldImagery")) + 
   mapview(watershed_boundary_ln, color = "black", alpha.regions = 0.2,map.types = c("OpenStreetMap.Mapnik", "Esri.WorldImagery"), legend = FALSE, lwd = 2, label = NA) + mapview(e911, cex = 3, zcol = "address", legend = FALSE, col.regions = "darkblue")
 ```
+
+</div>
