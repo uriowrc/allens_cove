@@ -24,11 +24,13 @@ e911 <- st_read("e911.shp", quiet=TRUE)
 nsink <- terra::project(nsink, st_crs(watershed_boundary)$wkt)
 nsink_crop <- terra::crop(terra::mask(nsink, watershed_boundary), watershed_boundary)
 nsink_crop <- as(nsink_crop, "Raster")
+x <- mapview(watershed_boundary_ln, color = "black", alpha.regions = 0.2,map.types = c("OpenStreetMap.Mapnik", "Esri.WorldImagery"), legend = FALSE, lwd = 2, label = NA) + mapview(e911, cex = 3, zcol = "address", legend = FALSE, col.regions = "darkblue")
+mapshot(x, url = "map.html", selfcontained = TRUE, title="Greater Allen's Cove-Eastern Ninigret Pilot Watershed")
 })
 #mapview(nsink_crop, map.types = c("OpenStreetMap.Mapnik", "Esri.WorldImagery")) + 
 #  mapview(wshd, col.regions = "white", alpha.regions = 0.3)
 #mapview(nsink_crop, map.types = c("OpenStreetMap.Mapnik", "Esri.WorldImagery")) + 
-  mapview(watershed_boundary_ln, color = "black", alpha.regions = 0.2,map.types = c("OpenStreetMap.Mapnik", "Esri.WorldImagery"), legend = FALSE, lwd = 2, label = NA) + mapview(e911, cex = 3, zcol = "address", legend = FALSE, col.regions = "darkblue")
+x
 ```
 
 </div>
